@@ -40,9 +40,9 @@ class TelegramClientAPI:
             data['reply_markup'] = json.dumps(reply_markup)
 
         async with self.session.post(f"{settings.API_URL}/sendMessage", json=data) as resp:
-            resp_json = resp.json()
+            resp_json = await resp.json()
             logger.info(f"[TelegramClientAPI::send_message] completed successfully | response::{resp_json}")
-            return await resp_json
+            return resp_json
 
     async def edit_message(self, chat_id: int, message_id: int, text: str, reply_markup: Optional[Dict] = None) -> Dict[str, Any]:
         """Редактировать сообщение через API Telegram"""
