@@ -1,43 +1,59 @@
-- [Руководство по поднятию прокси](#руководство-по-поднятию-прокси)
-  - [1. 3proxy (самый простой вариант)](#1-3proxy-самый-простой-вариант)
-    - [**Сетевой фильтр**](#сетевой-фильтр)
-    - [**Запуск:**](#запуск)
-  - [2. Альтернатива: TinyProxy (ещё проще)](#2-альтернатива-tinyproxy-ещё-проще)
-  - [3. Настройка для Telegram](#3-настройка-для-telegram)
-  - [4. Важные моменты безопасности](#4-важные-моменты-безопасности)
-  - [5. Проверка работы](#5-проверка-работы)
+<div align="center" style="margin: 20px 0; padding: 10px; background: #1c1917; border-radius: 10px;">
+  <strong>🌐 Language: </strong>
+  
+  <a href="./PROXY_MANUAL_PUB.ru.md" style="color: #F5F752; margin: 0 10px;">
+    🇷🇺 Russian
+  </a>
+  | 
+  <span style="color: #0891b2; margin: 0 10px;">
+    ✅ 🇺🇸 English (current)
+  </span>
+</div>
 
-# Руководство по поднятию прокси
+- [Back to main](../README.md)
 
-## 1. 3proxy (самый простой вариант)
+---
 
-**Установка на Ubuntu/Debian:**
+- [Proxy Setup Guide](#proxy-setup-guide)
+  - [1. 3proxy (the simplest option)](#1-3proxy-the-simplest-option)
+    - [**Network Filter**](#network-filter)
+    - [**Start:**](#start)
+  - [2. Alternative: TinyProxy (even simpler)](#2-alternative-tinyproxy-even-simpler)
+  - [3. Telegram Configuration](#3-telegram-configuration)
+  - [4. Important Security Notes](#4-important-security-notes)
+  - [5. Verification](#5-verification)
+
+# Proxy Setup Guide
+
+## 1. 3proxy (the simplest option)
+
+**Installation on Ubuntu/Debian:**
 
 ```bash
-# Обновляем пакеты
+# Update packages
 sudo apt update && sudo apt upgrade -y
 
-# Ставим 3proxy
+# Install dependencies
 sudo apt install build-essential git net-tools mc -y
 
-# Качаем исходники 3proxy
+# Download 3proxy sources
 git clone https://github.com/3proxy/3proxy.git
 cd 3proxy
 
-# Компилируем
+# Compile
 make -f Makefile.Linux
 sudo make -f Makefile.Linux install
 ```
 
-**Настройка конфига (/etc/3proxy/3proxy.cfg):**
+**Config setup (/etc/3proxy/3proxy.cfg):**
 
-- Чтобы найти точный адрес конфига `3proxy` смотрим его сервис
+- To find the exact config path, check the service file:
 
 ```sh
 nano /etc/systemd/system/3proxy.service
 ```
 
-> Будет примерно следующее
+> It will look something like this:
 
 ```sh
 sudo tee /etc/systemd/system/3proxy.service > /dev/null <<'EOF'
@@ -64,32 +80,31 @@ Alias=3proxy.service
 EOF
 ```
 
-- Просмотр конфигурации
+- View configuration:
 
 ```bash
 # cat /etc/3proxy/3proxy.cfg
 sudo nano /etc/3proxy/3proxy.cfg
 ```
 
-- Этот конфиг `/etc/3proxy/3proxy.cfg` может вести в `/usr/local/3proxy/conf/3proxy.cfg` что проверяется следюющей командой:
+- This config may point to another location, check with:
 
 ```sh
 find / -name "3proxy.cfg" 2>/dev/null
-# вывод
-/usr/local/3proxy/conf/3proxy.cfg
-/etc/3proxy/3proxy.cfg
-/home/linuxuser/3proxy/scripts/3proxy.cfg
-root@vultr:/home/linuxuser/3proxy#
+# output example:
+# /usr/local/3proxy/conf/3proxy.cfg
+# /etc/3proxy/3proxy.cfg
+# /home/linuxuser/3proxy/scripts/3proxy.cfg
 ```
 
-- Заменим эту странную переадресацию на новый конфиг
+- Replace it with your own clean config:
 
 ```sh
 sudo nano /etc/3proxy/3proxy.cfg
 ```
 
 ```sh
-sudo tee  /etc/3proxy/3proxy.cfg  > /dev/null <<'EOF'
+sudo tee /etc/3proxy/3proxy.cfg > /dev/null <<'EOF'
 daemon
 maxconn 30
 nscache 65536
@@ -112,15 +127,15 @@ socks -p1080
 EOF
 ```
 
-### **Сетевой фильтр**
+### **Network Filter**
 
 ```sh
 sudo ufw allow 1080/tcp
-# или
+# or
 sudo iptables -A INPUT -p tcp --dport 1080 -j ACCEPT
 ```
 
-### **Запуск:**
+### **Start:**
 
 ```bash
 sudo pkill -9 3proxy
@@ -132,85 +147,99 @@ sudo systemctl status 3proxy
 ```
 
 ```sh
-# Старт ручной
+# Manual start
 sudo /bin/3proxy /etc/3proxy/3proxy.cfg
 3proxy /etc/3proxy/3proxy.cfg
-# Проверка
+
+# Check process
 ps aux | grep 3proxy
-# Ещё проверка
+
+# Check port
 netstat -tlnp | grep 1080
-# Тест прокси
+
+# Test proxy
 curl --socks5 your_login:your_password@localhost:1080 http://ifconfig.me
 ```
 
-- Полезные команды
+- Useful commands:
 
 ```sh
-# проверка запуска 3proxy
+# check if 3proxy is running
 netstat -tlnp | grep 1080
-# отключение 3proxy
+
+# stop 3proxy
 sudo pkill -9 3proxy
-# инициализация сервиса
+
+# service management
 sudo systemctl daemon-reload
 sudo systemctl enable 3proxy
 sudo systemctl start 3proxy
 sudo systemctl status 3proxy
-# тестирование подключения с внешнего компьютера
+
+# test from external machine
 curl --socks5 your_login:your_password@localhost:1080 http://ifconfig.me
 ```
 
-## 2. Альтернатива: TinyProxy (ещё проще)
+---
 
-**Установка:**
+## 2. Alternative: TinyProxy (even simpler)
+
+**Installation:**
 
 ```bash
 sudo apt install tinyproxy -y
 ```
 
-**Настройка (/etc/tinyproxy/tinyproxy.conf):**
+**Configuration (/etc/tinyproxy/tinyproxy.conf):**
 
 ```bash
 Port 8888
-Allow 0.0.0.0/0  # или твой IP для безопасности
-BasicAuth username password  # опционально
+Allow 0.0.0.0/0  # or restrict to your IP for security
+BasicAuth username password  # optional
 ```
 
-**Запуск:**
+**Start:**
 
 ```bash
 sudo systemctl enable tinyproxy
 sudo systemctl start tinyproxy
 ```
 
-## 3. Настройка для Telegram
+---
 
-**Формат прокси для Telegram:**
+## 3. Telegram Configuration
+
+**Proxy format for Telegram:**
 
 ```
-Тип: SOCKS5/HTTP
-IP: твой_сервер_IP
-Порт: 3128 (или тот что указал)
-Логин: user (если установил)
-Пароль: password (если установил)
+Type: SOCKS5/HTTP
+IP: your_server_IP
+Port: 3128 (or the one you configured)
+Login: user (if set)
+Password: password (if set)
 ```
 
-## 4. Важные моменты безопасности
+---
 
-**Обязательно:**
+## 4. Important Security Notes
 
-- Открой порт в фаерволе:
+**Required:**
+
+- Open the port in the firewall:
 
 ```bash
 sudo ufw allow 3128/tcp
 ```
 
-**Рекомендуется:**
+**Recommended:**
 
-- Использовать сложные пароли
-- Ограничить доступ по IP (`Allow твой_IP` в tinyproxy)
-- Рассмотреть настройку аутентификации
+- Use strong passwords
+- Restrict access by IP (`Allow your_IP` in tinyproxy)
+- Enable authentication
 
-## 5. Проверка работы
+---
+
+## 5. Verification
 
 ```bash
 curl --proxy http://user:password@localhost:3128 http://ifconfig.me

@@ -1,74 +1,90 @@
-- [Установка](#установка)
-  - [Подготовка](#подготовка)
-  - [Установка Windows](#установка-windows)
-  - [Установка Ubuntu 22.04](#установка-ubuntu-2204)
+<div align="center" style="margin: 20px 0; padding: 10px; background: #1c1917; border-radius: 10px;">
+  <strong>🌐 Language: </strong>
+  
+  <a href="./INSTALL_REMOTE_HOST.ru.md" style="color: #F5F752; margin: 0 10px;">
+    🇷🇺 Russian
+  </a>
+  | 
+  <span style="color: #0891b2; margin: 0 10px;">
+    ✅ 🇺🇸 English (current)
+  </span>
+</div>
 
-# Установка
+- [Back to main](../README.md)
 
-## Подготовка
+---
 
-- Копируем следующие папки на удалённый хост
-  - папки:
+- [Installation](#installation)
+  - [Preparation](#preparation)
+  - [Windows Installation](#windows-installation)
+  - [Ubuntu 22.04 Installation](#ubuntu-2204-installation)
+
+# Installation
+
+## Preparation
+
+- Copy the following folders to the remote host:
+  - folders:
     - `bot`
-  - файлы
-    - `.env` - [Используем этот, со своими ключами](../.env)
+  - files:
+    - `.env` — [use this one with your own keys](../.env)
     - `requirements.txt`
 
-## Установка Windows
+## Windows Installation
 
-1. Ставим python.exe с офф. сайта
+1. Install `python.exe` from the official website
 
-2. **Создайте виртуальную среду:**
+2. **Create a virtual environment:**
 
-```sh
+```sh id="w6v5y1"
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. **Установите зависимости:**
+3. **Install dependencies:**
 
-```sh
+```sh id="k9s2qp"
 pip install -r requirements.txt
 ```
 
-4. **Запустить бота:**
+4. **Run the bot:**
 
-```sh
+```sh id="g1m7rc"
 python -m bot.main
 ```
 
-- Чек ОС
+- OS check
 
-```sh
+```sh id="os_chk_01"
 cat /etc/os-release
 lsb_release -a
 ```
 
-- Сброс старого SSH
+- Reset old SSH key
 
-```sh
+```sh id="ssh_rst_01"
 ssh-keygen -R 1.2.3.4
 ```
 
-## Установка Ubuntu 22.04
+## Ubuntu 22.04 Installation
 
-1. **Создайте виртуальную среду:**
+1. **Create a virtual environment:**
 
-```sh
+```sh id="u22_venv_01"
 apt update && apt upgrade -y
 sudo apt install python3.10-venv -y
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-2. **Установите зависимости:**
+2. **Install dependencies:**
 
-```sh
+```sh id="u22_pip_01"
 pip install -r requirements.txt
 ```
 
-3. **Запустить бота:**
+3. **Run the bot:**
 
-```sh
+```sh id="u22_run_01"
 python3 -m bot.main
 ```

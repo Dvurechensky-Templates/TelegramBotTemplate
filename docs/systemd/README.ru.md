@@ -1,16 +1,16 @@
 <div align="center" style="margin: 20px 0; padding: 10px; background: #1c1917; border-radius: 10px;">
-  <strong>🌐 Language: </strong>
+  <strong>🌐 Язык: </strong>
   
-  <a href="./README.ru.md" style="color: #F5F752; margin: 0 10px;">
-    🇷🇺 Russian
-  </a>
-  | 
-  <span style="color: #0891b2; margin: 0 10px;">
-    ✅ 🇺🇸 English (current)
+  <span style="color: #F5F752; margin: 0 10px;">
+    ✅ 🇷🇺 Русский (текущий)
   </span>
+  | 
+  <a href="./README.md" style="color: #0891b2; margin: 0 10px;">
+    🇺🇸 English
+  </a>
 </div>
 
-- [Back to main](../../README.md)
+- [На главную](../../README.ru.md)
 
 ---
 
@@ -37,66 +37,65 @@ WantedBy=multi-user.target
 EOF
 ```
 
-- Path checks
+- Проверка путей
 -
 
-# Make sure `main.py` exists in the bot folder
+# Проверьте что существует main.py в папке bot
 
-```sh
+````sh
 ls -la /home/tg_bot/bot/main.py
 ```
 
-# Check virtual environment
-
+# Проверьте виртуальную среду
 ```sh
 ls -la /home/tg_bot/venv/bin/python3
 ```
 
-# Reload systemd
+# Перезагружаем systemd
 
 ```sh
 sudo systemctl daemon-reload
-```
+````
 
-# Enable autostart on boot
+# Включаем автозапуск при загрузке
 
 ```sh
 sudo systemctl enable bot.service
 ```
 
-# Start service
+# Запускаем сервис
 
 ```sh
 sudo systemctl start bot.service
 ```
 
-# Check status
+# Проверяем статус
 
 ```sh
 sudo systemctl status bot.service
 ```
 
-- Useful
+- Полезное
 
-# View logs in real time
+# Посмотреть логи в реальном времени
 
 ```sh
 sudo journalctl -u bot.service -f
 ```
 
-# View recent logs
+# Посмотреть последние логи
 
 ```sh
 sudo journalctl -u bot.service -n 50
 ```
 
-# Restart service
+# Перезапустить сервис
 
 ```sh
 sudo systemctl restart bot.service
 ```
 
-# Stop service
+# Остановить сервис
 
 ```sh
 sudo systemctl stop bot.service

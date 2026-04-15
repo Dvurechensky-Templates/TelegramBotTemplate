@@ -1,28 +1,28 @@
 <div align="center" style="margin: 20px 0; padding: 10px; background: #1c1917; border-radius: 10px;">
-  <strong>🌐 Language: </strong>
+  <strong>🌐 Язык: </strong>
   
-  <a href="./CLEAR_NET.ru.md" style="color: #F5F752; margin: 0 10px;">
-    🇷🇺 Russian
-  </a>
-  | 
-  <span style="color: #0891b2; margin: 0 10px;">
-    ✅ 🇺🇸 English (current)
+  <span style="color: #F5F752; margin: 0 10px;">
+    ✅ 🇷🇺 Русский (текущий)
   </span>
+  | 
+  <a href="./CLEAR_NET.md" style="color: #0891b2; margin: 0 10px;">
+    🇺🇸 English
+  </a>
 </div>
 
-- [Back to main](../README.md)
+- [На главную](../README.ru.md)
 
 ---
 
-- [Cleanup](#cleanup)
+- [Очистка](#очистка)
   - [echo \> /var/log/wtmp](#echo--varlogwtmp)
   - [echo \> /var/log/btmp](#echo--varlogbtmp)
   - [echo \> /var/log/lastlog](#echo--varloglastlog)
-  - [Command History (cleanup)](#command-history-cleanup)
-  - [Check recent logins](#check-recent-logins)
-  - [Brute-force protection](#brute-force-protection)
+  - [История команд (очистка)](#история-команд-очистка)
+  - [Проверка последних логинов](#проверка-последних-логинов)
+  - [Блокировка от брутфорса](#блокировка-от-брутфорса)
 
-## Cleanup
+## Очистка
 
 ### echo > /var/log/wtmp
 
@@ -45,7 +45,7 @@ sudo truncate -s 0 /var/log/btmp
 sudo truncate -s 0 /var/log/lastlog
 ```
 
-### Command History (cleanup)
+### История команд (очистка)
 
 ```sh
 history -c
@@ -57,54 +57,54 @@ history -c
 history -w
 ```
 
-### Check recent logins
+### Проверка последних логинов
 
 ```sh
-# Recent logins
+# Последние логины
 last
 lastlog
 
-# Failed login attempts
+# Неудачные попытки входа
 lastb
 who
 
-# Check for processes in old terminals
+# Проверить, есть ли процессы в старых терминалах
 ps -t pts/1
 ps -t pts/2
 ps -t pts/3
 
-# Kill unused sessions (if empty)
+# Завершить неиспользуемые сессии (если они пустые)
 sudo pkill -9 -t pts/1
 sudo pkill -9 -t pts/2
 sudo pkill -9 -t pts/3
 
-# Or simply reboot the server
+# Или проще - перезагрузить сервер
 reboot
 
-(exit or Ctrl + D terminates sessions)
+(exit или Ctr + D завершают сессии)
 ```
 
-### Brute-force protection
+### Блокировка от брутфорса
 
-- Installation
+- Установка
 
 ```sh
 sudo apt install fail2ban -y
 ```
 
-- Copy config
+- Копируем конфиг
 
 ```sh
 sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 ```
 
-- Edit config
+- Редактируем
 
 ```sh
 sudo nano /etc/fail2ban/jail.local
 ```
 
-> Content
+> Содержимое
 
 ```sh
 [sshd]
@@ -116,7 +116,7 @@ bantime = 86400
 findtime = 600
 ```
 
-> or if `error`
+> или если `ошибка`
 
 ```sh
 [DEFAULT]
@@ -133,36 +133,36 @@ bantime = 3600
 backend = systemd
 ```
 
-- Start
+- Запуск
 
 ```sh
-sudo fail2ban-client -t # debug
+sudo fail2ban-client -t # отладка
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 sudo systemctl status fail2ban
 ```
 
-- Stop and remove
+- Остановка и удаление
 
 ```sh
 sudo systemctl stop fail2ban
 sudo apt remove --purge fail2ban -y
 ```
 
-- Check banned IPs
+- Глянуть кто забанен
 
 ```sh
 sudo fail2ban-client status sshd
 ```
 
-- Restart
+- Перезапуск
 
 ```sh
 sudo systemctl restart fail2ban
 sudo fail2ban-client status sshd
 ```
 
-- Logs
+- Логи
 
 ```sh
 sudo tail -20 /var/log/fail2ban.log

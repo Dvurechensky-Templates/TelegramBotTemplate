@@ -14,22 +14,36 @@
   ✨ Telegram Bot Template ✨
 </h1>
 
-# Шаблон бота для Telegram
+<div align="center" style="margin: 20px 0; padding: 10px; background: #1c1917; border-radius: 10px;">
+  <strong>🌐 Language: </strong>
+  
+  <a href="./README.ru.md" style="color: #F5F752; margin: 0 10px;">
+    🇷🇺 Russian
+  </a>
+  | 
+  <span style="color: #0891b2; margin: 0 10px;">
+    ✅ 🇺🇸 English (current)
+  </span>
+</div>
 
-- [Шаблон бота для Telegram](#шаблон-бота-для-telegram)
-  - [Структура](#структура)
-    - [✅ Плюсы:](#-плюсы)
-    - [⚠️ Минусы/заметки:](#️-минусызаметки)
-  - [Документация](#документация)
-  - [Функции](#функции)
-    - [Предварительные условия](#предварительные-условия)
-    - [Получение учетных данных](#получение-учетных-данных)
-      - [Токен бота](#токен-бота)
-      - [Учетные данные API](#учетные-данные-api)
-  - [Использование](#использование)
-  - [Ведение журнала](#ведение-журнала)
+---
 
-## Структура
+# Telegram Bot Template
+
+- [Telegram Bot Template](#telegram-bot-template)
+  - [Structure](#structure)
+    - [✅ Pros:](#-pros)
+    - [⚠️ Cons/Notes:](#️-consnotes)
+  - [Documentation](#documentation)
+  - [Features](#features)
+    - [Prerequisites](#prerequisites)
+    - [Getting Credentials](#getting-credentials)
+      - [Bot Token](#bot-token)
+      - [API Credentials](#api-credentials)
+  - [Usage](#usage)
+  - [Logging](#logging)
+
+## Structure
 
 ```sh
 bot/
@@ -41,62 +55,64 @@ bot/
  └─ __init__.py
 ```
 
-- **core/** — ядро: менеджеры БД, сервисов, тесты. Всё, что отвечает за логику и инфраструктуру.
-- **services/** — отдельный слой для конкретных функциональностей: callbacks, commands, keyboards, states, api. Каждый сервис изолирован и можно легко расширять.
-- **utils/** — вспомогательные функции/утилиты.
-- **config/** — конфиги бота (токены, настройки). Отделено от логики.
-- **main.py** — точка входа.
+- **core/** — core layer: DB managers, services, tests. Everything responsible for logic and infrastructure.
+- **services/** — separate layer for specific functionality: callbacks, commands, keyboards, states, API. Each service is isolated and easily extendable.
+- **utils/** — helper functions/utilities.
+- **config/** — bot configuration (tokens, settings). Separated from logic.
+- **main.py** — entry point.
 
-### ✅ Плюсы:
+### ✅ Pros:
 
-- Чистая `многослойная` архитектура.
-- Легко `масштабировать`, `добавлять` новые `команды`/`сервисы`.
-- Хорошая изоляция логики и сервиса.
-- Подходит для командной работы — никто не будет ломать ядро, работая над клавиатурами или `callbacks`.
+- Clean `layered` architecture.
+- Easy to `scale` and `add` new `commands`/`services`.
+- Good separation of logic and services.
+- Suitable for team development — no one breaks the core while working on keyboards or `callbacks`.
 
-### ⚠️ Минусы/заметки:
+### ⚠️ Cons/Notes:
 
-- Если проект станет реально большим, `services/` может вырасти и станет сложно ориентироваться. Можно будет рассмотреть `submodules` или `package namespace`.
+- If the project grows significantly, `services/` may become too large and harder to navigate. Could be improved later with `submodules` or `package namespaces`.
 
-## Документация
+## Documentation
 
-- [Полный файл изменений](docs/CHANGELOG.md)
-- [Задачи](docs/TASKS.md)
-- [Полная чистка Linux тачки после использования](docs/CLEAR_NET.md)
-- [Установка](docs/INSTALL_REMOTE_HOST.md)
-- [Настройка прокси-сервера](docs/PROXY_MANUAL_PUB.md)
-- [SMTP - проверка доступности портов](docs/SMTP_MANUAL.md)
+- [Full changelog](docs/CHANGELOG.md)
+- [Tasks](docs/TASKS.md)
+- [Full Linux machine cleanup after usage](docs/CLEAR_NET.md)
+- [Installation](docs/INSTALL_REMOTE_HOST.md)
+- [Proxy server setup](docs/PROXY_MANUAL_PUB.md)
+- [SMTP - port availability check](docs/SMTP_MANUAL.md)
+- [CREDENTIALS](docs/CREDENTIALS.md)
+- [Systemd info](docs/systemd/README.md)
 
-## Функции
+## Features
 
-- ✨ Функция 1
-- 👹 Функция 2
-- 🔐 Функция 3
-- 💀 Функция 4
-- 💬 Функция 5
-- ☔ Функция 6
-- 🛡️ Функция 7
-- 💾 Функция 8
-- 📋 Функция 9
-- 🌁 Функция 10
+- ✨ Feature 1
+- 👹 Feature 2
+- 🔐 Feature 3
+- 💀 Feature 4
+- 💬 Feature 5
+- ☔ Feature 6
+- 🛡️ Feature 7
+- 💾 Feature 8
+- 📋 Feature 9
+- 🌁 Feature 10
 
-### Предварительные условия
+### Prerequisites
 
 - Python `3.8+`
-- `Аккаунт` Telegram
-- `Токен` бота от @BotFather
-- Учётные `данные API` от my.telegram.org
+- Telegram `account`
+- Bot `token` from @BotFather
+- `API credentials` from my.telegram.org
 
-### Получение учетных данных
+### Getting Credentials
 
-#### Токен бота
+#### Bot Token
 
-- Написать @BotFather в Telegram
-- Отправить `/newbot`
-- Следуйте `инструкциям` по созданию бота
-- Скопируйте `токен` в ваш файл `.env`
-- Чтобы узнать `CHAT_ID` - перейдите по адресу `https://api.telegram.org/bot<YOUR_TOKEN_BOT>/getUpdates` и предварительно нажмите `/start` в боте и введите `1 сообщение` в чате куда его добавите `администратором`
-- `API_HASH` - берётся из аккаунта разработчика телеграмма с `my.telegram.org`
+- Message @BotFather in Telegram
+- Send `/newbot`
+- Follow the `instructions` to create your bot
+- Copy the `token` into your `.env` file
+- To get `CHAT_ID` — go to `https://api.telegram.org/bot<YOUR_TOKEN_BOT>/getUpdates`, first send `/start` to your bot and send `1 message` in the chat where the bot is added as an `administrator`
+- `API_HASH` — obtained from your Telegram developer account at `my.telegram.org`
 
 ```sh
 BOT_TOKEN=YOUR_BOT_TOKEN
@@ -104,26 +120,26 @@ API_ID=YOUR_API_ID
 API_HASH=YOUR_API_HASH
 ```
 
-#### Учетные данные API
+#### API Credentials
 
-- Посетите `https://my.telegram.org`
-- Войдите, используя свой `номер` `телефона`
-- Перейти к разделу `API Development tools`
-- Выберите `Create new application`
-- Скопируйте API ID, BOT TOKEN и API Hash в ваш файл `.env`
-- Указать допустимые идентификаторы Telegram в [ADMIN_USERNAMES](bot/config/settings.py) которые будут `пользоваться` вашим ботом и станут его `администраторами`
+- Visit `https://my.telegram.org`
+- Log in using your `phone number`
+- Go to `API Development tools`
+- Select `Create new application`
+- Copy API ID, BOT TOKEN, and API Hash into your `.env` file
+- Specify allowed Telegram usernames in [ADMIN_USERNAMES](bot/config/settings.py) who will `use` your bot and become its `administrators`
 
-## Использование
+## Usage
 
-- Запустить бота: `/start`
-- Посмотрите справку: `/help`
-- Список ваших сервисов: `🌀 My Services`
+- Start the bot: `/start`
+- View help: `/help`
+- List your services: `🌀 My Services`
 
-## Ведение журнала
+## Logging
 
-Все действия регистрируются в:
+All actions are logged in:
 
-- `app.log` (файл)
-- Вывод в консоль
+- `app.log` (file)
+- Console output
 
 <p align="center">✨Dvurechensky✨</p>
